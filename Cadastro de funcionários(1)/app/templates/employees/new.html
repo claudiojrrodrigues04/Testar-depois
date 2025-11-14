@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Novo Funcionário</h2>
+
+{% if error %}
+    <div class="alert error">{{ error }}</div>
+{% endif %}
+
+{% if not departments or not roles %}
+    <div class="alert warning">
+        <strong>Atenção:</strong> Você precisa cadastrar
+        <a href="/departments/new">Departamentos</a> e 
+        <a href="/roles/new">Cargos</a> 
+        antes de adicionar um funcionário.
+    </div>
+{% else %}
+
+    <form method="POST" action="/employees/">
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" 
+                   value="{{ form_data.name or '' }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" 
+                   value="{{ form_data.email or '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="department_id">Departamento:</label>
+            <select id="department_id" name="department_id" required>
+                <option value="">Selecione...</option>
+                {% for dept in departments %}
+                    <option value="{{ dept.id }}" 
+                            {% if form_data.department_id == dept.id %}selected{% endif %}>
+                        {{ dept.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="role_id">Cargo:</label>
+            <select id="role_id" name="role_id" required>
+                <option value="">Selecione...</option>
+                {% for role in roles %}
+                    <option value="{{ role.id }}"
+                            {% if form_data.role_id == role.id %}selected{% endif %}>
+                        {{ role.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Salvar</button>
+            <a href="/employees/" class="btn secondary">Cancelar</a>
+        </div>
+    </form>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Novo Cargo</h2>
+
+{% if error %}
+    <div class="alert error">{{ error }}</div>
+{% endif %}
+
+<form method="POST" action="/roles/">
+    <div class="form-group">
+        <label for="title">Título do Cargo:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn">Salvar</button>
+        <a href="/roles/" class="btn secondary">Cancelar</a>
+    </div>
+</form>
+
+{% endblock %}

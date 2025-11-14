@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Funcionários</h2>
+
+<div class="actions-bar">
+    <a class="btn" href="/employees/new">Novo Funcionário</a>
+</div>
+
+{% if employees and employees|length %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Departamento</th>
+                <th>Cargo</th>
+                </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees %}
+            <tr>
+                <td>{{ emp.id }}</td>
+                <td>{{ emp.name }}</td>
+                <td>{{ emp.email }}</td>
+                <td>{{ emp.department.name }}</td>
+                <td>{{ emp.role.title }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="empty-state">Nenhum funcionário cadastrado.</p>
+    <p class="empty-state">
+        Verifique se você já cadastrou
+        <a href="/departments/new">Departamentos</a> e 
+        <a href="/roles/new">Cargos</a>.
+    </p>
+{% endif %}
+
+{% endblock %}

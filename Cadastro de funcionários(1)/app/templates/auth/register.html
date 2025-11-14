@@ -1,0 +1,32 @@
+{% extends "base_login.html" %}
+{% block content %}
+
+<h2>Cadastro de Usuário</h2>
+
+{% if error %}
+    <div class="alert error">{{ error }}</div>
+{% endif %}
+
+<form method="POST" action="/register">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+
+    <div class="form-group">
+        <label for="confirm_password">Confirmar Senha:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn">Cadastrar</button>
+        <a href="/login" class="btn secondary">Já tenho conta</a>
+    </div>
+</form>
+
+{% endblock %}

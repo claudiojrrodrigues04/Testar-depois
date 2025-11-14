@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title or "Gestão de Funcionários" }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+
+<body>
+    <header class="container">
+        <h1><a href="/employees">Sistema de Gestão</a></h1>
+        
+        <nav>
+            <a class="btn" href="/employees">Funcionários</a>
+            <a class="btn" href="/departments">Departamentos</a>
+            <a class="btn" href="/roles">Cargos</a>
+            
+            <a class="btn" href="/products">Produtos</a>
+            <a class="btn" href="/products/new"><i class="fas fa-plus"></i> Novo Produto</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="container muted">
+        <small>UniFECAF - Projeto Semestral</small>
+    </footer>
+
+    <script>
+        document.addEventListener("submit", async function (event) {
+            const form = event.target;
+            const method = form.dataset.method?.toUpperCase();
+            if (method !== "PUT" && method !== "DELETE") return; // POST segue normal
+
+            event.preventDefault();
+
+            const action = form.getAttribute("action");
+            const formData = new FormData(form);
+            const response = await fetch(action, {
+                method,
+                body: method === "DELETE" ? null : formData
+            });
+
+            if (response.ok) {
+                // Redireciona para a página de funcionários (ou a raiz)
+                window.location.href = "/employees"; 
+            } else {
+                const msg = await response.text().catch(() => "");
+                alert("Erro: " + response.status + "\n" + msg);
+            }
+        });
+    </script>
+</body>
+
+</html>
